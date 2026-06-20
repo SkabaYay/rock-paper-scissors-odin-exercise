@@ -11,62 +11,70 @@ function getComputerChoice(){
     return choice
 }
 
-function getHumanChoice() {
-    const userInput = prompt("Enter something: ");
-    return userInput.toLowerCase();
-}
-
 let humanScore = 0;
 let computerScore = 0;
 
 function playRound(humanChoice, computerChoice) {
-    if (humanChoice === computerChoice) {
-        console.log("Draw!")
+    if (humanScore === 5) {
+        p.textContent = "You won! yay"
+        div.appendChild(p)
     } else {
-        if (humanChoice === "rock" && computerChoice === "scissors") {
-            console.log("You chose rock, computer chose scissors.");
-            console.log("Human wins!");
-            humanScore += 1;
-        } else if (humanChoice === "rock" && computerChoice === "paper") {
-            console.log("You chose rock, computer chose paper.");
-            console.log("Computer wins!");
-            computerScore += 1;
-        } else if (humanChoice === "paper" && computerChoice === "rock") {
-            console.log("You chose paper, computer chose rock.");
-            console.log("Human wins!");
-            humanScore += 1
-        } else if (humanChoice === "paper" && computerChoice ==="scissors") {
-            console.log("You chose paper, computer chose scissors.");
-            console.log("Computer wins!")
-            computerScore += 1
-        } else if (humanChoice === "scissors" && computerChoice === "paper") {
-            console.log("You chose scissors, computer chose paper.");
-            console.log("Human wins!")
-            humanScore += 1
-        } else if (humanChoice === "scissors" && computerChoice === "rock") {
-            console.log("You chose scissors, computer chose rock.");
-            console.log("Computer wins!")
-            computerScore += 1
-        } 
+        if (humanChoice === computerChoice) {
+            div.textContent = "Draw!"
+        } else {
+            if (humanChoice === "rock" && computerChoice === "scissors") {
+                div.textContent = "You chose rock, computer chose scissors."
+                humanScore += 1;
+            } else if (humanChoice === "rock" && computerChoice === "paper") {
+                div.textContent = "You chose rock, computer chose paper."
+                computerScore += 1;
+            } else if (humanChoice === "paper" && computerChoice === "rock") {
+                div.textContent = "You chose paper, computer chose rock."
+                humanScore += 1
+            } else if (humanChoice === "paper" && computerChoice ==="scissors") {
+                div.textContent = "You chose paper, computer chose scissors."
+                computerScore += 1
+            } else if (humanChoice === "scissors" && computerChoice === "paper") {
+                div.textContent = "You chose scissors, computer chose paper."
+                humanScore += 1
+            } else if (humanChoice === "scissors" && computerChoice === "rock") {
+                div.textContent = "You chose scissors, computer chose rock."
+                computerScore += 1
+            } 
+        }
+        p.textContent = "Your score: " + String(humanScore)
+        div.appendChild(p)
     }
 }
 
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
+const body = document.querySelector("body");
 
-        playRound(humanSelection, computerSelection);
-    }
-    console.log("Your score: " + String(humanScore))
-    console.log("Computer's score: " + String(computerScore))
-    if (humanScore > computerScore) {
-        console.log("You win!")
-    } else if (humanScore < computerScore) {
-        console.log("Computer wins!")
-    } else {
-            console.log("It's a draw.")
-    }
-}
+const rock = document.createElement("button");
+rock.textContent = "ROCK";
+body.appendChild(rock);
 
-playGame()
+const paper = document.createElement("button");
+paper.textContent = "PAPER";
+body.appendChild(paper);
+
+const scissors = document.createElement("button");
+scissors.textContent = "SCISSORS"
+body.appendChild(scissors)
+
+body.addEventListener("click", (e) => {
+    if (e.target.tagName === "BUTTON") {
+        let humanSelection = e.target.textContent
+        let computerSelection = getComputerChoice()
+        playRound(humanSelection.toLowerCase(), computerSelection)
+    }
+})
+
+const div = document.createElement("div")
+div.classList.add("results")
+div.textContent = "Choose nowwwwwwwww"
+
+const p = document.createElement("p")
+p.textContent = "Your score: " + String(humanScore)
+div.appendChild(p)
+
+body.appendChild(div)
